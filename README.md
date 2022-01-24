@@ -1,7 +1,7 @@
 
 # Unity Style Guide
 
-This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide.
+This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide. This version of the guide removes Unreal-related terminology, as well as specific rules which I believe to be overzealous.
 
 <a name="toc"></a>
 ## Table of Contents
