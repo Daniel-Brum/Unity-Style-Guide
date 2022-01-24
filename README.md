@@ -70,7 +70,7 @@ There are a few different ways you can name things. Here are some common casing 
 >  ##### lowercase
 > All letters are lowercase, e.g. `deserteagle`, 
 > ##### _underScore
-> The name is prepended by an underscore. The first letter is always lowercase but every following word starts with uppercase, e.g. `desertEagle`, `styleGuide`, `aSeriesOfWords`.
+> The name is prepended by an underscore. The first letter is always lowercase but every following word starts with uppercase, e.g. `_desertEagle`, `_styleGuide`, `_aSeriesOfWords`.
 > ##### Snake_case
 > Words can arbitrarily start upper or lowercase but words are separated by an underscore, e.g. `desert_Eagle`, `Style_Guide`, `a_Series_of_Words`.
 
