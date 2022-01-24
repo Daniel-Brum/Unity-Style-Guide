@@ -1,3 +1,4 @@
+
 # Unity Style Guide
 
 This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide.
@@ -791,18 +792,19 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Level / Scene           |  *          |            | [Should be in a folder called Levels.](#levels) e.g. `Levels/A4_C17_Parking_Garage.unity` |
+| Level / Scene           |  *          |            | [Should be in a folder called Scenes.](#levels) e.g. `Scenes/A4_C17_Parking_Garage.unity` |
 | Level (Persistent)      |            | _P         |                                  |
 | Level (Audio)           |            | _Audio     |                                  |
 | Level (Lighting)        |            | _Lighting  |                                  |
 | Level (Geometry)        |            | _Geo       |                                  |
 | Level (Gameplay)        |            | _Gameplay  |                                  |
-| Prefab                  |        |            |                                  |
+| Prefab                  | PF_        |            |                                  |
+| Audio Clip              | AUC_       |            |                                  |
 | Material                | M_         |            |                                  |
-| Static Mesh             | SM_       |            |                                  |
-| Skeletal Mesh           | SK_       |            |                                  |
+| Static Mesh             | SM_        |            |                                  |
+| Skeletal Mesh           | SK_        |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
-| Particle System         | PS_       |            |                                  |
+| Particle System         | PS_        |            |                                  |
 
 <a name="anc-models"></a>
 
@@ -820,15 +822,6 @@ PascalCase
 | Skeleton      | SKEL_  |        |       |
 | Rig           | RIG_   |        |       |
 
-#### 4.2.1b 3d Models (3ds Max)
-
-All meshes in 3ds Max are lowercase to differentiate them from their FBX export.
-
-| Asset Type    | Prefix | Suffix      | Notes                                   |
-| ------------- | ------ | ----------- | --------------------------------------- |
-| Mesh          |        | _mesh_lod0* | Only use LOD suffix if model uses LOD's |
-| Mesh Collider |        | _collider   |                                         |
-
 <a name="anc-animations"></a>
 
 #### 4.2.2 Animations 
@@ -838,38 +831,6 @@ All meshes in 3ds Max are lowercase to differentiate them from their FBX export.
 | Animation Controller | AC_    |        |       |
 | Avatar Mask          | AM_    |        |       |
 | Morph Target         | MT_    |        |       |
-
-<a name="anc-ai"></a>
-#### 4.2.3 Artificial Intelligence
-
-| Asset Type              | Prefix     | Suffix     | Notes                            |
-| ----------------------- | ---------- | ---------- | -------------------------------- |
-| AI Controller           | AIC_     |            |                                  |
-| Behavior Tree           | BT_      |            |                                  |
-| Blackboard              | BB_       |            |                                  |
-| Decorator               | BTDecorator_ |          |                                  |
-| Service                 | BTService_ |            |                                  |
-| Task                    | BTTask_  |            |                                  |
-| Environment Query       | EQS_     |            |                                  |
-| EnvQueryContext         | EQS_     | Context    |                                  |
-
-<a name="anc-prefab"></a>
-#### 4.2.4 Prefabs
-
-| Asset Type              | Prefix     | Suffix     | Notes                            |
-| ----------------------- | ---------- | ---------- | -------------------------------- |
-| Prefab         |        |            |                                  |
-| Prefab Instance         | I       |            |                                  |
-| Scriptable Object       |     |        | Assigned "Blueprint" label in Editor |
-
-<a name="anc-materials"></a>
-
-#### 4.2.5 Materials
-| Asset Type        | Prefix | Suffix | Notes |
-| ----------------- | ------ | ------ | ----- |
-| Material          | M_     |        |       |
-| Material Instance | MI_    |        |       |
-| Physical Material | PM_    |        |       |
 
 <a name="anc-textures"></a>
 
@@ -889,9 +850,7 @@ All meshes in 3ds Max are lowercase to differentiate them from their FBX export.
 | Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
 | Texture Cube            | TC_       |            |                                  |
 | Media Texture           | MT_       |            |                                  |
-| Render Target           | RT_       |            |                                  |
-| Cube Render Target      | RTC_     |            |                                  |
-| Texture Light Profile   | TLP_     |            |                                  |
+| Render Texture           | RT_       |            |                                  |
 
 <a name="anc-textures-packing"></a>
 
@@ -924,16 +883,15 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 | Asset Type     | Prefix | Suffix | Notes                                                        |
 | -------------- | ------ | ------ | ------------------------------------------------------------ |
-| Audio Clip     | A_     |        |                                                              |
+| Audio Clip     | AUC_     |        |                                                              |
 | Audio Mixer    | MIX_   |        |                                                              |
-| Dialogue Voice | DV_    |        |                                                              |
-| Audio Class    |        |        | No prefix/suffix. Should be put in a folder called AudioClasses |
+| Dialogue Voice | DV_    |        |
 
 <a name="anc-ui"></a>
 #### 4.2.10 User Interface
 | Asset Type       | Prefix | Suffix | Notes |
 | ---------------- | ------ | ------ | ----- |
-| Font             | Font_  |        |       |
+| Font             | FNT_  |        |       |
 | Texture (Sprite) | T_     | _GUI   |       |
 
 <a name="anc-effects"></a>
@@ -954,11 +912,9 @@ This section describes best practices for creating and importing assets usable i
 
 > 5.1 [Unity Asset Import Settings](#unityimport)
 >
-> 5.2 [3ds Max](#3dsmax)
+> 5.2 [Textures](#textures)
 >
-> 5.3 [Textures](#textures)
->
-> 5.4 [Audio](#audio)
+> 5.3 [Audio](#audio)
 
 <a name="unityimport"></a>
 
@@ -966,117 +922,8 @@ This section describes best practices for creating and importing assets usable i
 
 Unity's [AssetPostprocessor](https://docs.unity3d.com/ScriptReference/AssetPostprocessor.html) lets you hook into the import pipeline and run scripts prior to or after importing assets. This allows you to enforce import settings when assets are first imported into the project. For example textures that end with `_N` can be marked as a Normal Map on import.
 
-Example guide for Import Settings:
-
-https://github.com/justinwasilenko/Unity-AssetPostProcessor
-
-<a name="3dsmax"></a>
-### 5.2 3ds Max
-
-Unity guide on importing from 3ds Max:
-
-https://docs.unity3d.com/2017.4/Documentation/Manual/HOWTO-ImportObjectMax.html
-
-Unity tutorial on the FBX Exporter Package for FBX roundtrip:
-
-https://learn.unity.com/project/3ds-max-to-unity-pipeline
-
-#### Setting up 3ds Max
-
-Unity uses 1 unit = 1 meter. Setup 3ds Max to use Meters by going to ```Customize/Units Setup/System Unit Setup``` and set to 1 Unit = 1 Meter. Using the correct scale is very important for correct Physics / GI / and VR interaction.
-
-Animation frame rate in 3ds Max should be set to 30fps. The ```Time Configuration``` dialog box has 3ds Max's FPS settings
-
-##### Working with Small Objects
-
-* Set ```Customize > Customize User Interface > Mouse Wheel Zoom Increment``` to 0.1m to stop over zooming
-
-* Turn on Viewport Clipping and set the slider on the side of the viewport to be able to zoom in on small meshes. (https://knowledge.autodesk.com/support/3ds-max/learn-explore/caas/sfdcarticles/sfdcarticles/Viewport-Clipping.html)
-
-#### Modeling in 3ds Max
-
-* Follow the [asset naming convention](#anc-models)
-* Avoid super long thin triangles (Speeds up tile based renderers & helps with proper GI baking)
-* Use Area and Angle Weighted Mesh Normals (Unity Import Setting or Create in 3ds Max)
-
-#### Exporting from 3ds Max into Unity
-
-##### Export Settings:
-
-- Triangulate On
-- Tangents and Binormals Off
-- Smoothing Groups On
-- Preserve edge orientation On
-- Units - Automatic Off / Scene Units converted to Meters
-- Axis Conversion Z-up
-
-Models created in 3ds Max use a different coordinate system then Unity. Models need to have their pivot point rotated +90 degrees on the X axis to import into Unity correctly.
-
-To do this quickly, open the MaxScript editor, paste this code and select and drag this code on to a Toolbar in 3ds Max to create a button that will run this script. It applies a Xform modifier to rotate the pivot before exporting.
-
-```
-fn RotateCreationPivot obj rot =
-(
-select obj
-modPanel.addModToSelection (XForm ()) ui:on
-obj.modifiers[#XForm].gizmo.rotation += rot as quat
-rotate obj (inverse rot as quat)
-)
-RotateCreationPivot $ (eulerToQuat(eulerAngles 90 0 0))
-```
-
-
-Script to rotate all objects in 3ds Max scene for export
-
-```
-(
-    mapped fn ProcessObjectsForUnity node =
-    (
-        resetxform node
-        tm = rotatexmatrix 90
-        tm.row4 = node.pos
-        node.transform = tm
-        node.objectoffsetrot = eulerangles -90 0 0
-    )
-    
-    ProcessObjectsForUnity geometry
-)
-```
-
-* Batch Exporter for 3ds Max (http://www.strichnet.com/improving-the-fbx-workflow-between-3ds-max-and-unity3d/)
-
-##### Exporting CAT Animation to FBX
-
-Bind normal bones to the CAT rig for use in skinning and exporting
-
-###### Bind Pose
-
-Set Motion Panel/Layer Manager/"Setup/Animation Mode" Toggle to ```Red```
-Select only the bones and the mesh you wish to export
-Export naming: ModelName.FBX
-
-###### Animation
-
-Set Motion Panel/Layer Manager/"Setup/Animation Mode" to ```Green```
-Select ONLY the bones required in your hierarchy (These should match the exact same bones used for Bind Pose), don't include the mesh.
-Export naming: ModelName@AnimationName.FBX
-The @ symbol is a special Unity naming convention allowing the animation to be bound to the Human.fbx in the Unity editor
-
-#### Importing from 3ds Max into Unity
-
-If importing only animation or bones from a FBX: 
-
-* Set ```Preserve Hierarchy Model``` import option to ```True```
-* Set ```Rig > Avatar Definition``` to ```Copy From Other Avatar```
-
-MaxListener Window, set width and height of selected bones, maybe objects too?
-$.width = 0.01
-$.height = 0.01
-
-**[⬆ Back to Top](#table-of-contents)**
-
 <a name="textures"></a>
-### 5.3 Textures
+### 5.2 Textures
 
 * Textures follow the [naming convention](#anc-textures) found above. 
 * They are a power of two (For example, 512 x 512 or 256 x 1024).
@@ -1091,12 +938,12 @@ Textures requiring the use of a Alpha channel should follow this guide: [https:/
 
 ##### Texture File Format
 
-All textures should be of the .PSD format. No layers should be included and only one Alpha channel in the imported file.
+Ideally, all textures should be of the .PSD format. This facilitates quick iteration by artists. No layers should be included and only one Alpha channel in the imported file.
 
 **[⬆ Back to Top](#table-of-contents)**
 
 <a name="audio"></a>
-### 5.4 Audio
+### 5.3 Audio
 
 Only import uncompressed audio files in to Unity using WAV or AIFF formats.
 
