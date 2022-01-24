@@ -391,34 +391,34 @@ Within each of these groups order by access:
 ```cs
 namespace ProjectName
 {
-	/// <summary>  
-	/// Brief summary of what the class does
-	/// </summary>
+    /// <summary>  
+    /// Brief summary of what the class does
+    /// </summary>
     public class Account
     {
       #region Fields
 			
-	  public const string ShippingType = "DropShip";      
+      public const string ShippingType = "DropShip";      
 
       public static string BankName;
       public static decimal Reserves;
  
-	  public string BankName;
+      public string BankName;
 	  
-	  private float _timeToDie;
+      private float _timeToDie;
 	  
-	  #endregion
+      #endregion
 	  
-	  #region Properties
+      #region Properties
 	  
       public string Number {get; set;}
       public DateTime DateOpened {get; set;}
       public DateTime DateClosed {get; set;}
       public decimal Balance {get; set;}
             
-	  #endregion
+      #endregion
 	 
-	  #region LifeCycle
+      #region LifeCycle
 	  
       public Awake()
       {
@@ -427,7 +427,7 @@ namespace ProjectName
       
       #endregion
       
-	  #region Public Methods
+      #region Public Methods
 	  
       public AddObjectToBank()
       {
