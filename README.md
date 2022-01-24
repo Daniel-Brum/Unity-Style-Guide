@@ -1,6 +1,6 @@
 # Unity Style Guide
 
-This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity.
+This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide.
 
 <a name="toc"></a>
 ## Table of Contents
@@ -69,7 +69,8 @@ There are a few different ways you can name things. Here are some common casing 
 > The first letter is always lowercase but every following word starts with uppercase, e.g. `desertEagle`, `styleGuide`, `aSeriesOfWords`.
 >  ##### lowercase
 > All letters are lowercase, e.g. `deserteagle`, 
->
+> ##### _underScore
+> The name is prepended by an underscore. The first letter is always lowercase but every following word starts with uppercase, e.g. `desertEagle`, `styleGuide`, `aSeriesOfWords`.
 > ##### Snake_case
 > Words can arbitrarily start upper or lowercase but words are separated by an underscore, e.g. `desert_Eagle`, `Style_Guide`, `a_Series_of_Words`.
 
@@ -261,10 +262,10 @@ Once the assets are ready for use, an artist simply has to move the assets into 
 
 
 <a name="levels"></a>
-### 2.4 All [Scene](#terms-level-map) Files Belong In A Folder Called Levels
-Level files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `Assets/ProjectNameName/Levels`.
+### 2.4 All [Scene](#terms-level-map) Files Belong In A Folder Called Scenes
+Level files are incredibly special and it is common for every project to have its own map naming system, especially if they work with sub-levels or streaming levels. No matter what system of map organization is in place for the specific project, all levels should belong in `Assets/ProjectNameName/Scenes`.
 
-Being able to tell someone to open a specific map without having to explain where it is is a great time saver and general 'quality of life' improvement. It is common for levels to be within sub-folders of `Levels`, such as `Levels/Campaign1/` or `Levels/Arenas`, but the most important thing here is that they all exist within `Assets/ProjectNameName/Levels`.
+Being able to tell someone to open a specific map without having to explain where it is is a great time saver and general 'quality of life' improvement. It is common for levels to be within sub-folders of `Scenes`, such as `Scenes/Campaign1/` or `Scenes/Arenas`, but the most important thing here is that they all exist within `Assets/ProjectNameName/Scenes`.
 
 This also simplifies the job of cooking for engineers. Wrangling levels for a build process can be extremely frustrating if they have to dig through arbitrary folders for them. If a team's levels are all in one place, it is much harder to accidentally not cook a map in a build. It also simplifies lighting build scripts as well QA processes.
 
@@ -347,7 +348,7 @@ _Dynamic
 
 ## 3. Scripts
 
-This section will focus on C# classes and their internals. When possible, style rules conform to Microsoft's C# standard.
+This section will focus on C# classes and their internals.
 
 ### Sections
 > 3.1 [Class Organization](#classorganization)
@@ -366,7 +367,7 @@ Source files should be given the name of the public class in the file.
 
 Organize namespaces with a clearly defined structure,
 
-Class members should be alphabetized, and grouped into sections:
+Class members should be alphabetized, and grouped into regions:
 * Constant Fields
 * Static Fields
 * Fields
@@ -392,17 +393,13 @@ namespace ProjectName
     public class Account
     {
       #region Fields
-      
-      [Tooltip("Public variables set in the Inspector, should have a Tooltip")]
+			
+	  public const string ShippingType = "DropShip";      
+
       public static string BankName;
-      
-	  /// <summary>  
-	  /// They should also have a summary
-	  /// </summary>
       public static decimal Reserves;
  
 	  public string BankName;
-	  public const string ShippingType = "DropShip";
 	  
 	  private float _timeToDie;
 	  
@@ -425,6 +422,7 @@ namespace ProjectName
       }
       
       #endregion
+      
 	  #region Public Methods
 	  
       public AddObjectToBank()
@@ -446,7 +444,7 @@ Use a namespace to ensure your scoping of classes/enum/interface/etc won't confl
 
 #### All Public Functions Should Have A Summary
 
-Simply, any function that has an access modifier of Public should have its summary filled out. 
+Simply, any function that has an access modifier of Public should have its summary filled out, unless it is already documented somewhere else; i.e. Unity functions.
 
 ```
 /// <summary>
@@ -458,32 +456,8 @@ public void Fire()
 }
 ```
 
-#### Foldout Groups
-If a class has only a small number of variables, Foldout Groups are not required.
-
-If a class has a moderate amount of variables (5-10), all [Serializable](#serializable) variables should have a non-default Foldout Group assigned. A common category is `Config`.
-
-To create Foldout Groups there are 2 options in Unity. 
-
-* The first is to define a `[Serializable] public Class` inside the main class however this can have a performance impact. This allows the use of the same variable name to be shared.
-* The second option is to use the Foldout Group Attribute available with [Odin Inspector](https://odininspector.com/).
-
-```
-[[Serializable](https://docs.unity3d.com/ScriptReference/Serializable.html)]
-public struct PlayerStats
-	{
-        public int MovementSpeed;
-    }
-    
-[FoldoutGroup("Interactable")]
-public int MovementSpeed = 1;
-```
-
 #### Commenting
-Comments should be used to describe intention, algorithmic overview, and/or logical flow.
-It would be ideal if from reading the comments alone someone other than the author could understand a function’s intended behavior and general operation.
-
-While there are no minimum comment requirements and certainly some very small routines need no commenting at all, it is hoped that most routines will have comments reflecting the programmer’s intent and approach.
+Comments, beyond XML docs, should be kept to a minimum. Whenever you feel the need to comment something, first attempt to extract a method out of the unclear section of code. Comment only where this is not possible or sufficient.
 
 ##### Comment Style
 Place the comment on a separate line, not at the end of a line of code.
@@ -503,8 +477,8 @@ The // (two slashes) style of comment tags should be used in most situations. Wh
 #### Regions
 The `#region` directive enables you to collapse and hide sections of code in C# files. The ability to hide code selectively makes your files more manageable and easier to read. 
 ```
-#region "This is the code to be collapsed"
-    Private components As System.ComponentModel.Container
+#region Fields
+    public int numberField = 1;
 #endregion
 ```
 
@@ -518,7 +492,7 @@ Example: `Console.In.Read(myChar, 0, 1);`
 <a name="3.1"></a>
 <a name="compiling"></a>
 ### 3.2 Compiling
-All scripts should compile with zero warnings and zero errors. You should fix script warnings and errors immediately as they can quickly cascade into very scary unexpected behavior.
+All scripts should compile with zero warnings. You should fix script warnings immediately as they can quickly accumulate and pollute the console. Suppress undesirable warnings with `pragma warning disable`. Under no circumstances should you suppress warnings beyond the scope you wish to ignore.
 
 Do *not* submit broken scripts to source control. If you must store them on source control, shelve them instead.
 
@@ -531,7 +505,9 @@ The words `variable` and `property` may be used interchangeably.
 All non-boolean variable names must be clear, unambiguous, and descriptive nouns. 
 
 ##### Case
-All variables use PascalCase unless marked as [private](#privatevariables) which use camelCase. 
+All variables use PascalCase unless marked as [private](#privatevariables) or protected. 
+Private variables *not* given the attribute `[SerializeField]` use _underScore (`private int _numberOne = 1`).
+Private variables *given* the attribute `[SerializeField]` or protected variables use camelCase.
 
 Use PascalCase for abbreviations of 4 characters or more (3 chars are both uppercase).
 
@@ -567,28 +543,12 @@ Variables should only be made public if necessary.
 
 Prefer to use the attribute `[SerializeField]` instead of making a variable public.
 
-##### Local Variables
-Local variables should use camelCase.
-
-###### Implicitly Typed Local Variables
-Use implicit typing for local variables when the type of the variable is obvious from the right side of the assignment, or when the precise type is not important.
-```
-var var1 = "This is clearly a string.";
-var var2 = 27;
-var var3 = Convert.ToInt32(Console.ReadLine());
-// Also used in for loops
-for (var i = 0; i < bountyHunterFleets.Length; ++i) {};
-```
-
-Do not use var when the type is not apparent from the right side of the assignment.
-Example
-```
-int var4 = ExampleClass.ResultSoFar();
-```
+###### Implicitly Typed Variables
+Only ever use the `var` keyword inside `foreach` statements.
 
 <a name="privatevariables"></a>
 ##### Private Variables
-Private variables should have a prefix with a underscore `_myVariable` and use camelCase.
+If a variable is given the `[SerializeField]` attribute it should be named utilizing _underScore. If it is not given the `[SerializeField]` attribute, it should be named utilizing camelCase.
 
 Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
 
@@ -606,24 +566,19 @@ string strName;
 
 #### Variables accessible in the Editor
 
-##### Tooltips 
-All [Serializable](#serializable) variables should have a description in their `[Tooltip]` fields that explains how changing this value affects the behavior of the script.
-
 ##### Variable Slider And Value Ranges
 All [Serializable](#serializable) variables should make use of slider and value ranges if there is ever a value that a variable should _not_ be set to.
 
-Example: A script that generates fence posts might have an editable variable named `PostsCount` and a value of -1 would not make any sense. Use the range fields `[Range(min, max)]` to mark 0 as a minimum.
+Example: A script that generates fence posts might have an editable variable named `PostsCount` and a value of -1 would not make any sense. Use the attributes `[Range(min, max)]`, `[Max(max)]` or `[Min(min)]` to limit the values.
 
-If an editable variable is used in a Construction Script, it should have a reasonable Slider Range defined so that someone can not accidentally assign it a large value that could crash the editor.
-
-A Value Range only needs to be defined if the bounds of a value are known. While a Slider Range prevents accidental large number inputs, an undefined Value Range allows a user to specify a value outside the Slider Range that may be considered 'dangerous' but still valid.
+Do your best to ensure a script cannot be broken by modifying its values in the inspector.
 
 #### Variable Types
 
 ##### Booleans
 
 ###### Boolean Prefix
-All booleans should be named in PascalCase but prefixed with a verb.
+All booleans should be prefixed with a verb.
 
 Example: Use `isDead` and `hasItem`, **not** `Dead` and `Item`.
 
@@ -633,12 +588,12 @@ All booleans should be named as descriptive adjectives when possible if represen
 Try to not use verbs such as `isRunning`. Verbs tend to lead to complex states.
 
 ###### Boolean Complex States
-Do not use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
+Do not use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use a ScriptableObject enum or an enum.
 
-Example: When defining a weapon, do **not** use `isReloading` and `isEquipping` if a weapon can't be both reloading and equipping. Define an enumeration named `WeaponState` and use a variable with this type named `WeaponState` instead. This makes it far easier to add new states to weapons.
+Example: When defining a weapon, do **not** use `isReloading` and `isEquipping` if a weapon can't be both reloading and equipping. Define an enumeration or [ScriptableObject enum](https://www.youtube.com/watch?v=raQ3iHhE_Kk) named `WeaponState` and use a variable with this type named `WeaponState` instead. This makes it far easier to add new states to weapons.
 
 ##### Enums
-Enums use PascalCase and use singular names for enums and their values. Exception: bit field enums should be plural. Enums can be placed outside the class space to provide global access.
+Enums use PascalCase and use singular names for enums and their values. Exception: bit field enums should be plural. Enums can be placed outside the class space to provide global access. Prefer using [ScritableObject enums](https://www.youtube.com/watch?v=raQ3iHhE_Kk) instead of C# enumerations as they're far more extensible.
 
 Example: 
 ```
@@ -667,7 +622,7 @@ Example: Use `Targets`, `Hats`, and `EnemyPlayers`, not `TargetList`, `HatArray`
 ##### Interfaces
 Interfaces are led with a capital `I` then followed with PascalCase.
 
-Example: ```public interface ICanEat { }```
+Example: ```public interface IControllable { }```
 
 <a name="functions"></a>
 ### 3.4 Functions, Events, and Event Dispatchers
@@ -703,7 +658,7 @@ Good examples:
 Bad examples:
 
 * `Dead` - Is Dead? Will deaden?
-* `Rock`
+* `Rock` - What is this even?
 * `ProcessData` - Ambiguous, these words mean nothing.
 * `PlayerState` - Nouns are ambiguous.
 * `Color` - Verb with no context, or ambiguous noun.
