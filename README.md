@@ -1,4 +1,6 @@
 
+
+
 # Unity Style Guide
 
 This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide. This version of the guide removes Unreal-related terminology, as well as specific rules which I believe to be overzealous.
@@ -349,7 +351,7 @@ _Dynamic
 
 ## 3. Scripts
 
-This section will focus on C# classes and their internals.
+This section will focus on C#.
 
 ### Sections
 > 3.1 [Class Organization](#classorganization)
@@ -360,6 +362,7 @@ This section will focus on C# classes and their internals.
 
 > 3.4 [Functions](#functions)
 
+<a name="3.1"></a>
 <a name="classorganization"></a>
 ### 3.1 Class Organization
 Source files should contain only one public type, although multiple internal classes are allowed.
@@ -368,7 +371,7 @@ Source files should be given the name of the public class in the file.
 
 Organize namespaces with a clearly defined structure,
 
-Class members should be alphabetized, and grouped into regions:
+Class members should be ordered logically, and grouped into regions:
 * Constant Fields
 * Static Fields
 * Fields
@@ -385,7 +388,7 @@ Within each of these groups order by access:
 * internal
 * protected
 * private
-```
+```cs
 namespace ProjectName
 {
 	/// <summary>  
@@ -441,13 +444,13 @@ To save some time you can overwrite Unity's default script template with your ow
 
 <a name="namespace"></a>
 #### Namespace
-Use a namespace to ensure your scoping of classes/enum/interface/etc won't conflict with existing ones from other namespaces or the global namespace. The project should at minimum use the projects name for the Namespace to prevent conflicts with any imported Third Party assets.
+Use a namespace to ensure your scoping of classes/enum/interface/etc won't conflict with existing ones from other namespaces or the global namespace. Namespaces should be named using PascalCase. The project should at minimum use the projects name for the Namespace to prevent conflicts with any imported Third Party assets.
 
 #### All Public Functions Should Have A Summary
 
 Simply, any function that has an access modifier of Public should have its summary filled out, unless it is already documented somewhere else; i.e. Unity functions.
 
-```
+```cs
 /// <summary>
 /// Fire a gun
 /// </summary>
@@ -456,6 +459,9 @@ public void Fire()
 // Fire the gun.
 }
 ```
+
+#### Language
+All names, including type, field, function names, as well as any comments should be in US English.
 
 #### Commenting
 Comments, beyond XML docs, should be kept to a minimum. Whenever you feel the need to comment something, first attempt to extract a method out of the unclear section of code. Comment only where this is not possible or sufficient.
@@ -470,17 +476,19 @@ End comment text with a period.
 Insert one space between the comment delimiter (//) and the comment text, as shown in the following example.
 
 The // (two slashes) style of comment tags should be used in most situations. Where ever possible, place comments above the code instead of beside it. Here are some examples:
-```
+```cs
         // Sample comment above a variable.
         private int _myInt = 5;
 ```
 
 #### Regions
-The `#region` directive enables you to collapse and hide sections of code in C# files. The ability to hide code selectively makes your files more manageable and easier to read. 
-```
-#region Fields
+The `#region` directive enables you to collapse and hide sections of code in C# files. The ability to hide code selectively makes your files more manageable and easier to read. All region declarations should have one empty line of spacing above and below.
+```cs
+	#region Fields
+
     public int numberField = 1;
-#endregion
+    
+	#endregion
 ```
 
 #### Spacing
@@ -490,6 +498,22 @@ Example: `Console.In.Read(myChar, 0, 1);`
 * Do not use a space after the parenthesis and function arguments.
 * Do not use spaces between a function name and parenthesis.
 * Do not use spaces inside brackets.
+
+#### Attribute Placement
+Every attribute should be placed in its own line.
+```cs
+// Prefer
+[SerializeField]
+[Min(0)]
+private int number = 0;
+
+// Avoid
+[SerializeField, Min(0)]
+private int number = 0;
+```
+#### Indentation
+Indentations for any block should use tabs, configured as 4 spaces long (Default setting of most IDEs).
+
 <a name="3.1"></a>
 <a name="compiling"></a>
 ### 3.2 Compiling
@@ -501,7 +525,7 @@ Do *not* submit broken scripts to source control. If you must store them on sour
 The words `variable` and `property` may be used interchangeably.
 
 #### Variable Naming
-
+ 
 ##### Nouns
 All non-boolean variable names must be clear, unambiguous, and descriptive nouns. 
 
@@ -544,6 +568,26 @@ Variables should only be made public if necessary.
 
 Prefer to use the attribute `[SerializeField]` instead of making a variable public.
 
+###### Access Level Modifiers
+Access level modifiers should always be explicit. Never omit a private modifier.
+```cs
+// Prefer
+private int number = 0;
+
+// Avoid
+int number = 0;
+```
+###### Field Declarations
+Prefer single declarations per line.
+```cs
+// Prefer
+private int number;
+private int date;
+
+// Avoid
+int number, date;
+```
+
 ###### Implicitly Typed Variables
 Only ever use the `var` keyword inside `foreach` statements.
 
@@ -555,7 +599,7 @@ Unless it is known that a variable should only be accessed within the class it i
 
 ##### Do _Not_ use Hungarian notation
 Do _not_ use Hungarian notation or any other type identification in identifiers
-```
+```cs
 // Correct
 int counter;
 string name;
@@ -596,8 +640,11 @@ Example: When defining a weapon, do **not** use `isReloading` and `isEquipping` 
 ##### Enums
 Enums use PascalCase and use singular names for enums and their values. Exception: bit field enums should be plural. Enums can be placed outside the class space to provide global access. Prefer using [ScritableObject enums](https://www.youtube.com/watch?v=raQ3iHhE_Kk) instead of C# enumerations as they're far more extensible.
 
+##### Properties
+Properties always use CamelCase, irrespective of their access level.
+
 Example: 
-```
+```cs
 public enum WeaponType
 {
     Knife,
@@ -664,6 +711,9 @@ Bad examples:
 * `PlayerState` - Nouns are ambiguous.
 * `Color` - Verb with no context, or ambiguous noun.
 
+#### Functions Should Avoid Having More Than A Single Level Of Indentation
+When writing a function, avoid having multiple levels of indentation. This is not always possible, but can be avoided in the vast majority of cases. Having at most a single level of indentation makes functions more readable.
+
 #### Functions Returning Bool Should Ask Questions
 When writing a function that does not change the state of or modify any object and is purely for getting information, state, or computing a yes/no value, it should ask a question. This should also follow [the verb rule](#function-verbrule).
 
@@ -705,6 +755,48 @@ Bad examples:
 
 * `OnData`
 * `OnTarget`
+
+#### Parameter Naming
+All parameters should be named utilizing camelCase. Otherwise, utilize the same good-practices laid out above regarding function naming. 
+
+#### Braces
+Every brace should get it's own line, as per C# convention.
+```cs
+// Prefer
+private void Method()
+{
+	if (condition)
+	{
+	}
+}
+
+// Avoid
+private void Method() { 
+	if (condition) {
+	}
+}
+```
+Futhermore, *all* calls should be enclosed within braces, with the exception of flow control keywords, like `return`, `continue`, `break`, etc.
+```cs
+// Prefer
+private void Method()
+{
+	if (!condition) return;
+	DoSomething();
+}
+
+// Avoid
+private void Method()
+{
+	if (condition) DoSomething();
+	else
+	{
+		return;
+	}
+}
+```
+#### Line Wrapping
+No line should be longer than 120 characters. Wrap lines longer than this length.
 
 **[⬆ Back to Top](#table-of-contents)**
 <a name="anc"></a>
