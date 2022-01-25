@@ -380,6 +380,8 @@ Class members should be ordered logically, and grouped into regions:
 * Events / Delegates
 * LifeCycle Methods (Awake, OnEnable, OnDisable, OnDestroy)
 * Public Methods
+* Internal Methods
+* Protected Methods
 * Private Methods
 * Nested types
 
