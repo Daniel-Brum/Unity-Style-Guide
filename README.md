@@ -1,6 +1,7 @@
 
 
 
+
 # Unity Style Guide
 
 This article contains ideas for setting up a projects structure and a naming convention for scripts and assets in Unity. It is derived from [justinwasilenko's](https://github.com/justinwasilenko/Unity-Style-Guide) Unity Style Guide. This version of the guide removes Unreal-related terminology, as well as specific rules which I believe to be overzealous.
@@ -351,7 +352,7 @@ _Dynamic
 
 ## 3. Scripts
 
-This section will focus on C#.
+This is a brief section detailing practices that should be followed regarding C# code for the Unity project. Follow [Microsoft's C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions) unless otherwise noted in this guide.
 
 ### Sections
 > 3.1 [Class Organization](#classorganization)
@@ -367,17 +368,17 @@ This section will focus on C#.
 ### 3.1 Class Organization
 Source files should contain only one public type, although multiple internal classes are allowed.
 
-Source files should be given the name of the public class in the file.
+Source files should be given the name of the public class, struct, enum or record in the file.
 
-Organize namespaces with a clearly defined structure,
+Organize namespaces according to a well-defined structure. Mirror the namespace in the folder structure that contains the scripts. If a script is in the namespace `Game.Runtime.Input`, the .cs file should be placed at Scripts/Runtime/Input.
 
 Class members should be ordered logically, and grouped into regions:
 * Constant Fields
 * Static Fields
 * Fields
-* Constructors
 * Properties
 * Events / Delegates
+* Constructors
 * LifeCycle Methods (Awake, OnEnable, OnDisable, OnDestroy)
 * Public Methods
 * Internal Methods
@@ -507,11 +508,11 @@ Every attribute should be placed in its own line.
 // Prefer
 [SerializeField]
 [Min(0)]
-private int number = 0;
+private int _number = 0;
 
 // Avoid
 [SerializeField, Min(0)]
-private int number = 0;
+private int _number = 0;
 ```
 #### Indentation
 Indentations for any block should use tabs, configured as 4 spaces long (Default setting of most IDEs).
@@ -524,7 +525,6 @@ All scripts should compile with zero warnings. You should fix script warnings im
 Do *not* submit broken scripts to source control. If you must store them on source control, shelve them instead.
 
 ### 3.3 Variables
-The words `variable` and `property` may be used interchangeably.
 
 #### Variable Naming
  
@@ -534,7 +534,6 @@ All non-boolean variable names must be clear, unambiguous, and descriptive nouns
 ##### Case
 All variables use PascalCase unless marked as [private](#privatevariables) or protected. 
 Private variables *not* given the attribute `[SerializeField]` use _underScore (`private int _numberOne = 1`).
-Private variables *given* the attribute `[SerializeField]` or protected variables use camelCase.
 
 Use PascalCase for abbreviations of 4 characters or more (3 chars are both uppercase).
 
@@ -574,20 +573,20 @@ Prefer to use the attribute `[SerializeField]` instead of making a variable publ
 Access level modifiers should always be explicit. Never omit a private modifier.
 ```cs
 // Prefer
-private int number = 0;
+private int _number = 0;
 
 // Avoid
-int number = 0;
+int _number = 0;
 ```
 ###### Field Declarations
 Prefer single declarations per line.
 ```cs
 // Prefer
-private int number;
-private int date;
+private int _number;
+private int _date;
 
 // Avoid
-int number, date;
+int _number, _date;
 ```
 
 ###### Implicitly Typed Variables
@@ -595,7 +594,7 @@ Only ever use the `var` keyword inside `foreach` statements.
 
 <a name="privatevariables"></a>
 ##### Private Variables
-If a variable is given the `[SerializeField]` attribute it should be named utilizing _underScore. If it is not given the `[SerializeField]` attribute, it should be named utilizing camelCase.
+Private variables should be named utilizing _underScore.
 
 Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
 
