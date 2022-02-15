@@ -378,8 +378,9 @@ Class members should be ordered logically, and grouped into regions:
 * Fields
 * Properties
 * Events / Delegates
+* Callbacks
 * Constructors
-* LifeCycle Methods (Awake, OnEnable, OnDisable, OnDestroy)
+* Lifecycle Methods (Awake, OnEnable, OnDisable, OnDestroy)
 * Public Methods
 * Internal Methods
 * Protected Methods
@@ -517,7 +518,7 @@ private int _number = 0;
 #### Indentation
 Indentations for any block should use tabs, configured as 4 spaces long (Default setting of most IDEs).
 
-<a name="3.1"></a>
+<a name="3.2"></a>
 <a name="compiling"></a>
 ### 3.2 Compiling
 All scripts should compile with zero warnings. You should fix script warnings immediately as they can quickly accumulate and pollute the console. Suppress undesirable warnings with `pragma warning disable`. Under no circumstances should you suppress warnings beyond the scope you wish to ignore.
